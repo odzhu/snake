@@ -1,21 +1,14 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
 
 	snake "github.com/odzhu/snake/snake"
 )
 
-var c = snake.NewCheck()
-
-func handler(w http.ResponseWriter, r *http.Request) {
-	c.Name = "testname"
-	c.Result = "testResult"
-	fmt.Fprintf(w, "App v2 %s!", c)
-}
+var c = new(snake.Whereami)
 
 func main() {
-	http.HandleFunc("/", handler)
+	http.HandleFunc("/", c.Resulthttp)
 	http.ListenAndServe(":8080", nil)
 }

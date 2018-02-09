@@ -2,30 +2,31 @@ package snake
 
 import (
 	"fmt"
+	"net/http"
+	"time"
 )
 
-//Checker must be implemented by any check
-type Checker interface {
-	Run() error
-	Stop() error
-	Result() (Check, error)
-}
-
-//Check must be type for check result outputs
-type Check struct {
+//Whereami must be type for check result outputs
+type Whereami struct {
 	Name      string
-	Timestamp int
+	Timestamp time.Time
 	Result    string
 }
 
-//Printresult prints result
-func (c *Check) Printresult() error {
-	_, err := fmt.Println("Checkname: ", c.Name, " result: ", c.Result)
-	return err
+//Run runs the check
+func (c *Whereami) Run() {
+	c.Name = "Whereami"
+	c.Timestamp = time.Now()
 }
 
-//NewCheck is construcor
-func NewCheck() (c *Check) {
-	c = new(Check)
+//Resulthttp handles http
+func (c *Whereami) Resulthttp(w http.ResponseWriter, r *http.Request) {
+	c.Run()
+	fmt.Fprintf(w, "whereami %s:", c)
+}
+
+//NewWhereami is construcor
+func NewWhereami() (c *Whereami) {
+	c = new(Whereami)
 	return c
 }
